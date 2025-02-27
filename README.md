@@ -81,7 +81,7 @@ Smart contract vulnerabilities can lead to **fund loss**, **contract manipulatio
 
 ---
 
-## 1️⃣ Reentrancy Vulnerability
+## 1️. Reentrancy Vulnerability
 ### Vulnerable Code
 ```solidity
 function withdraw() public {
@@ -106,13 +106,13 @@ function withdraw() external nonReentrant {
 }
 ```
 ### Fix:
-✅ Uses `nonReentrant` modifier to prevent reentrancy attacks.
+- Uses `nonReentrant` modifier to prevent reentrancy attacks.
 
-✅ Updates user balance **before** making external calls.
+- Updates user balance **before** making external calls.
 
 ---
 
-## 2️⃣ Integer Overflow/Underflow
+## 2️. Integer Overflow/Underflow
 ### Vulnerable Code
 ```solidity
 function transfer(address to, uint256 amount) external {
@@ -131,13 +131,13 @@ function transfer(address to, uint256 amount) external {
 }
 ```
 ### Fix:
-✅ Ensures sender has enough balance **before** subtraction.
+- Ensures sender has enough balance **before** subtraction.
 
-✅ Prevents integer underflow/overflow without relying on `unchecked`.
+- Prevents integer underflow/overflow without relying on `unchecked`.
 
 ---
 
-## 3️⃣ Untrusted `delegatecall`
+## 3️. Untrusted `delegatecall`
 ### Vulnerable Code
 ```solidity
 function execute(address target, bytes calldata data) external {
@@ -154,13 +154,13 @@ function execute(address target, bytes calldata data) external onlyOwner {
 }
 ```
 ### Fix:
-✅ Uses `onlyOwner` modifier to restrict execution.
+- Uses `onlyOwner` modifier to restrict execution.
 
-✅ Ensures target address is **not** `address(0)`.
+- Ensures target address is **not** `address(0)`.
 
 ---
 
-## 4️⃣ Precision Errors
+## 4️. Precision Errors
 ### Secure Code
 ```solidity
 function safeDivide(uint256 a, uint256 b) external pure returns (uint256) {
@@ -169,13 +169,13 @@ function safeDivide(uint256 a, uint256 b) external pure returns (uint256) {
 }
 ```
 ### Fix:
-✅ Ensures denominator is **not zero** before division.
+- Ensures denominator is **not zero** before division.
 
-✅ Multiplies numerator by `1e18` to avoid precision errors.
+- Multiplies numerator by `1e18` to avoid precision errors.
 
 ---
 
-## 5️⃣ Insufficient Access Control
+## 5️. Insufficient Access Control
 ### Secure Code
 ```solidity
 modifier onlyOwner {
@@ -184,51 +184,51 @@ modifier onlyOwner {
 }
 ```
 ### Fix:
-✅ Uses `onlyOwner` to restrict sensitive functions.
+- Uses `onlyOwner` to restrict sensitive functions.
 
 ---
 
-## 6️⃣ DoS via Block Gas Limit
+## 6️. DoS via Block Gas Limit
 ### Secure Code
 ```solidity
 mapping(address => uint256) balances; // ✅ Use mapping instead of array
 ```
 ### Fix:
-✅ Uses `mapping` instead of arrays to avoid excessive gas usage.
+- Uses `mapping` instead of arrays to avoid excessive gas usage.
 
 ---
 
-## 7️⃣ Unencrypted On-Chain Data
+## 7️. Unencrypted On-Chain Data
 ### Secure Code
 ```solidity
 bytes32 private hashedData = keccak256(abi.encodePacked(secretValue));
 ```
 ### Fix:
-✅ Stores sensitive data as a **hash** using `keccak256`.
+- Stores sensitive data as a **hash** using `keccak256`.
 
 ---
 
-## 8️⃣ Timestamp Dependence
+## 8️. Timestamp Dependence
 ### Secure Code
 ```solidity
 uint256 randomValue = uint256(blockhash(block.number - 1));
 ```
 ### Fix:
-✅ Uses `blockhash` instead of `block.timestamp` for randomness.
+- Uses `blockhash` instead of `block.timestamp` for randomness.
 
 ---
 
 ## Conclusion
 The `SecureContract` mitigates all identified vulnerabilities using best security practices, including:
-✅ **Reentrancy protection** using `nonReentrant`.
+- **Reentrancy protection** using `nonReentrant`.
 
-✅ **Strict access control** with `onlyOwner`.
+- **Strict access control** with `onlyOwner`.
 
-✅ **Secure randomness sources**.
+- **Secure randomness sources**.
 
-✅ **Data integrity** by using hashed storage.
+- **Data integrity** by using hashed storage.
 
-✅ **Gas-efficient structures** to prevent DoS attacks.
+- **Gas-efficient structures** to prevent DoS attacks.
 
-🔹 **Always test smart contracts thoroughly before deployment!** 🚀
+**Always test smart contracts thoroughly before deployment!** 🚀
 
