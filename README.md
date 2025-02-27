@@ -161,6 +161,13 @@ function execute(address target, bytes calldata data) external onlyOwner {
 ---
 
 ## 4️. Precision Errors
+### Vulnerable Code
+```solidity
+function divide(uint256 a, uint256 b) external pure returns (uint256) {
+    return a / b; // ⚠️ No check for division by zero
+}
+```
+
 ### Secure Code
 ```solidity
 function safeDivide(uint256 a, uint256 b) external pure returns (uint256) {
@@ -176,6 +183,12 @@ function safeDivide(uint256 a, uint256 b) external pure returns (uint256) {
 ---
 
 ## 5️. Insufficient Access Control
+### Vulnerable Code
+```solidity
+function changeOwner(address newOwner) external {
+    owner = newOwner; // ⚠️ No access control
+}
+```
 ### Secure Code
 ```solidity
 modifier onlyOwner {
@@ -189,6 +202,16 @@ modifier onlyOwner {
 ---
 
 ## 6️. DoS via Block Gas Limit
+### Vulnerable Code
+```solidity
+uint256[] public largeArray;
+function addMany(uint256[] calldata values) external {
+    for (uint256 i = 0; i < values.length; i++) {
+        largeArray.push(values[i]); // ⚠️ Can exceed block gas limit
+    }
+}
+```
+
 ### Secure Code
 ```solidity
 mapping(address => uint256) balances; // ✅ Use mapping instead of array
@@ -199,6 +222,14 @@ mapping(address => uint256) balances; // ✅ Use mapping instead of array
 ---
 
 ## 7️. Unencrypted On-Chain Data
+### Vulnerable Code
+```solidity
+string public sensitiveData;
+function storeData(string calldata _data) external {
+    sensitiveData = _data; // ⚠️ Visible on-chain
+}
+```
+
 ### Secure Code
 ```solidity
 bytes32 private hashedData = keccak256(abi.encodePacked(secretValue));
@@ -209,6 +240,12 @@ bytes32 private hashedData = keccak256(abi.encodePacked(secretValue));
 ---
 
 ## 8️. Timestamp Dependence
+### Vulnerable Code
+```solidity
+function random() public view returns (uint256) {
+    return uint256(block.timestamp); // ⚠️ Predictable
+}
+```
 ### Secure Code
 ```solidity
 uint256 randomValue = uint256(blockhash(block.number - 1));
