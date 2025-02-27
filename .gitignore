@@ -15,6 +15,3 @@ docs/
 
 # VSCode settings
 .vscode/
-
-# lib directory
-lib/
