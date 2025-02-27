@@ -13,4 +13,8 @@ docs/
 # Dotenv file
 .env
 
+# VSCode settings
 .vscode/
+
+# lib directory
+lib/
